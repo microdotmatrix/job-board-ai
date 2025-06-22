@@ -1,22 +1,20 @@
-"use client"
+"use client";
 
-import { ComponentPropsWithRef, useTransition } from "react"
-import { Button } from "./ui/button"
-import { toast } from "sonner"
-import { LoadingSwap } from "./LoadingSwap"
+import { ComponentPropsWithRef, useTransition } from "react";
+import { toast } from "sonner";
+import { LoadingSwap } from "./LoadingSwap";
 import {
   AlertDialog,
-  AlertDialogDescription,
-  AlertDialogTitle,
-} from "@radix-ui/react-alert-dialog"
-import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
+  AlertDialogTitle,
   AlertDialogTrigger,
-} from "./ui/alert-dialog"
+} from "./ui/alert-dialog";
+import { Button } from "./ui/button";
 
 export function ActionButton({
   action,
@@ -24,19 +22,19 @@ export function ActionButton({
   areYouSureDescription = "This action cannot be undone.",
   ...props
 }: Omit<ComponentPropsWithRef<typeof Button>, "onClick"> & {
-  action: () => Promise<{ error: boolean; message?: string }>
-  requireAreYouSure?: boolean
-  areYouSureDescription?: string
+  action: () => Promise<{ error: boolean; message?: string }>;
+  requireAreYouSure?: boolean;
+  areYouSureDescription?: string;
 }) {
-  const [isLoading, startTransition] = useTransition()
+  const [isLoading, startTransition] = useTransition();
 
   function performAction() {
     startTransition(async () => {
-      const data = await action()
+      const data = await action();
       if (data.error) {
-        toast.error(data.message ?? "Error")
+        toast.error(data.message ?? "Error");
       }
-    })
+    });
   }
 
   if (requireAreYouSure) {
@@ -60,7 +58,7 @@ export function ActionButton({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    )
+    );
   }
 
   return (
@@ -72,5 +70,5 @@ export function ActionButton({
         {props.children}
       </LoadingSwap>
     </Button>
-  )
+  );
 }
